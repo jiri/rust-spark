@@ -4,6 +4,8 @@ extern crate spark;
 
 /* TODO:
  *  - stdin support
+ *  - show help
+ *  - docs
  */
 fn main() {
     let values: Vec<f32> = std::os::args().iter()
