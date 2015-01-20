@@ -1,10 +1,12 @@
+#![allow(unstable)]
+
 use std::f32::MAX_VALUE as f32_max;
 use std::num::Float;
 
 pub fn graph(args: &[f32]) -> String {
-    let ticks = ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"];
-    let mut sparkline = String::with_capacity(args.len());
+    let ticks = "▁▂▃▄▅▆▇█";
 
+    /* XXX */
     let mut min: f32 = f32_max;
     let mut max: f32 = 0.0;
 
@@ -17,11 +19,13 @@ pub fn graph(args: &[f32]) -> String {
         }
     }
 
-    let ratio = (ticks.len() - 1) as f32 / (max - min);
+    /* XXX */
+    let ratio = (ticks.chars().count() - 1) as f32 / (max - min);
 
-    for &i in args.iter() {
-        sparkline.push_str(ticks[((i - min) * ratio).floor() as usize]);
-    }
-
-    sparkline
+    args.iter()
+        .cloned()
+        .map(|n| (n - min) * ratio)
+        .map(|n| n.floor() as usize)
+        .filter_map(|n| ticks.chars().nth(n))
+        .collect()
 }
