@@ -3,15 +3,12 @@
 extern crate spark;
 extern crate getopts;
 
+/* TODO: Sort these out better */
 use std::os;
 use getopts::optflag;
 use std::io::stdio::stdin_raw;
 
-/* TODO:
- *  - stdin support
- *  - docs
- */
-
+/* TODO: docs */
 fn main() {
     let args = os::args();
 
@@ -33,16 +30,17 @@ fn main() {
     };
 
     if matches.opt_present("v") {
-        println!("spark v{}", env!("CARGO_PKG_VERSION"));
+        println!("spark-rs v{}", env!("CARGO_PKG_VERSION"));
         return;
     }
 
-    /* XXX: This could be generated better */
+    /* FIXME: This should be generated better */
     if matches.opt_present("h") {
         println!("{}", getopts::usage("Usage:\n\tspark [-hv] VALUE,...", &opts).as_slice());
         return;
     }
 
+    /* XXX: This is becoming a bit too much */
     let values: Vec<f32> = if stdin_raw().isatty() {
         os::args().iter().skip(1)
             .flat_map(|n| n.split(','))
@@ -53,6 +51,7 @@ fn main() {
             .unwrap()
             .trim()
             .split(' ')
+            .flat_map(|n| n.split('\n'))
             .flat_map(|n| n.split(','))
             .filter_map(|n| n.parse::<f32>())
             .collect()
@@ -62,6 +61,5 @@ fn main() {
         println!("{}", spark::graph(values.as_slice()));
     } else {
         println!("{}", getopts::usage("Usage:\n\tspark [-hv] VALUE,...", &opts).as_slice());
-        return;
     }
 }
