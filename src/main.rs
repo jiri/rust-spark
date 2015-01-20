@@ -5,6 +5,7 @@ extern crate getopts;
 
 use std::os;
 use getopts::optflag;
+use std::io::stdio::stdin_raw;
 
 /* TODO:
  *  - stdin support
@@ -42,13 +43,25 @@ fn main() {
         return;
     }
 
-    let values: Vec<f32> = os::args().iter()
-        .skip(1)
-        .flat_map(|n| n.split(','))
-        .filter_map(|n| n.parse::<f32>())
-        .collect();
+    let values: Vec<f32> = if stdin_raw().isatty() {
+        os::args().iter().skip(1)
+            .flat_map(|n| n.split(','))
+            .filter_map(|n| n.parse::<f32>())
+            .collect()
+    } else {
+        stdin_raw().read_to_string()
+            .unwrap()
+            .trim()
+            .split(' ')
+            .flat_map(|n| n.split(','))
+            .filter_map(|n| n.parse::<f32>())
+            .collect()
+    };
 
     if !values.is_empty() {
         println!("{}", spark::graph(values.as_slice()));
+    } else {
+        println!("{}", getopts::usage("Usage:\n\tspark [-hv] VALUE,...", &opts).as_slice());
+        return;
     }
 }

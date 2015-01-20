@@ -11,6 +11,7 @@ spark 0 30 55 80 33 150
 ▁▂▃▅▂▇
 ```
 
-## Notes
-
-Reading from `stdin` is not yet implemented.
+```
+echo 0,30,55,80,33,150 | spark
+▁▂▃▅▂▇
+```
