@@ -8,7 +8,6 @@ use getopts::optflag;
 
 /* TODO:
  *  - stdin support
- *  - show help
  *  - docs
  */
 
@@ -16,6 +15,7 @@ fn main() {
     let args = os::args();
 
     let opts = [
+        /* TODO: More possible flags */
         /* - Wait for EOF to draw */
         /* - Set min / max values */
         optflag("h", "help", "display this help text"),
@@ -32,25 +32,21 @@ fn main() {
     };
 
     if matches.opt_present("v") {
-        println!("{}", env!("CARGO_PKG_VERSION"));
+        println!("spark v{}", env!("CARGO_PKG_VERSION"));
         return;
     }
 
+    /* XXX: This could be generated better */
     if matches.opt_present("h") {
-        /* TODO: Print help here */
-        println!("{}", getopts::usage("Echo the STRING(s) to standard output.", &opts).as_slice());
+        println!("{}", getopts::usage("Usage:\n\tspark [-hv] VALUE,...", &opts).as_slice());
         return;
     }
-
-    // println!("{:?}", args);
 
     let values: Vec<f32> = os::args().iter()
         .skip(1)
         .flat_map(|n| n.split(','))
         .filter_map(|n| n.parse::<f32>())
         .collect();
-
-    // println!("{:?}", values);
 
     if !values.is_empty() {
         println!("{}", spark::graph(values.as_slice()));
