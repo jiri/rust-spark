@@ -6,7 +6,7 @@ use std::num::Float;
 pub fn graph(args: &[f32]) -> String {
     let ticks = "▁▂▃▄▅▆▇█";
 
-    /* XXX */
+    /* XXX: This doesn't feel like idiomatic Rust */
     let mut min: f32 = f32_max;
     let mut max: f32 = 0.0;
 

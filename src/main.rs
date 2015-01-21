@@ -42,7 +42,9 @@ fn main() {
 
     /* XXX: This is becoming a bit too much */
     let values: Vec<f32> = if stdin_raw().isatty() {
+        /* FIXME: Options will get passed through this pipeline */
         os::args().iter().skip(1)
+            .flat_map(|n| n.split('\n'))
             .flat_map(|n| n.split(','))
             .filter_map(|n| n.parse::<f32>())
             .collect()
