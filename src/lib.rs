@@ -19,8 +19,11 @@ pub fn graph(args: &[f32]) -> String {
         }
     }
 
-    /* XXX */
-    let ratio = (ticks.chars().count() - 1) as f32 / (max - min);
+    let ratio = if max == min {
+        1.0
+    } else {
+        (ticks.chars().count() - 1) as f32 / (max - min)
+    };
 
     args.iter()
         .cloned()
