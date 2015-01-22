@@ -3,3 +3,12 @@
 name = "spark"
 version = "0.2.0"
 authors = ["Jiří Šebele <sindriava@gmail.com>"]
+
+[lib]
+
+name = "spark"
+
+[[bin]]
+
+name = "spark"
+doc = false
