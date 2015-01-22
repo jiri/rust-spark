@@ -9,21 +9,21 @@ use std::io::stdio::stdin_raw;
 fn main() {
     /* XXX: This is pretty weird */
     let args = os::args();
-    let mut args = args.tail().iter();
+    let args = args.tail();
 
-    if args.any(|s| s.contains("-v")) {
+    if args.iter().any(|s| s.contains("-v")) {
         println!("spark-rs v{}", env!("CARGO_PKG_VERSION"));
         return;
     }
 
-    if args.any(|s| s.contains("-h")) || args.count() == 0 {
+    if args.iter().any(|s| s.contains("-h")) || args.iter().count() == 0 {
         println!("Usage:\n\tspark [-hv] VALUE,...");
         return;
     }
 
-    /* XXX: This is becoming a bit too much */
+    /* TODO: DRY */
     let values: Vec<f32> = if stdin_raw().isatty() {
-        args.skip(1)
+        args.iter()
             .flat_map(|n| n.split('\n'))
             .flat_map(|n| n.split(','))
             .filter_map(|n| n.parse::<f32>())
