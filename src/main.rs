@@ -1,49 +1,29 @@
 #![allow(unstable)]
 
 extern crate spark;
-extern crate getopts;
 
-/* TODO: Sort these out better */
 use std::os;
-use getopts::optflag;
 use std::io::stdio::stdin_raw;
 
 /* TODO: docs */
 fn main() {
+    /* XXX: This is pretty weird */
     let args = os::args();
+    let mut args = args.tail().iter();
 
-    let opts = [
-        /* TODO: More possible flags */
-        /* - Wait for EOF to draw */
-        /* - Set min / max values */
-        optflag("h", "help", "display this help text"),
-        optflag("v", "version", "output version information and exit"),
-    ];
-
-    let matches = match getopts::getopts(args.tail(), &opts) {
-        Ok(m) => m,
-        Err(f) => {
-            println!("{}", f);
-            os::set_exit_status(1);
-            return;
-        }
-    };
-
-    if matches.opt_present("v") {
+    if args.any(|s| s.contains("-v")) {
         println!("spark-rs v{}", env!("CARGO_PKG_VERSION"));
         return;
     }
 
-    /* FIXME: This should be generated better */
-    if matches.opt_present("h") {
-        println!("{}", getopts::usage("Usage:\n\tspark [-hv] VALUE,...", &opts).as_slice());
+    if args.any(|s| s.contains("-h")) || args.count() == 0 {
+        println!("Usage:\n\tspark [-hv] VALUE,...");
         return;
     }
 
     /* XXX: This is becoming a bit too much */
     let values: Vec<f32> = if stdin_raw().isatty() {
-        /* FIXME: Options will get passed through this pipeline */
-        os::args().iter().skip(1)
+        args.skip(1)
             .flat_map(|n| n.split('\n'))
             .flat_map(|n| n.split(','))
             .filter_map(|n| n.parse::<f32>())
@@ -59,9 +39,5 @@ fn main() {
             .collect()
     };
 
-    if !values.is_empty() {
-        println!("{}", spark::graph(values.as_slice()));
-    } else {
-        println!("{}", getopts::usage("Usage:\n\tspark [-hv] VALUE,...", &opts).as_slice());
-    }
+    println!("{}", spark::graph(values.as_slice()));
 }
