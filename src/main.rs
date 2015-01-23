@@ -5,7 +5,6 @@ extern crate spark;
 use std::os;
 use std::io::stdio::stdin_raw;
 
-/* TODO: docs */
 fn main() {
     /* XXX: This is pretty weird */
     let args = os::args();
@@ -16,7 +15,8 @@ fn main() {
         return;
     }
 
-    if args.iter().any(|s| s.contains("-h")) || args.iter().count() == 0 {
+    /* XXX: Looong if */
+    if args.iter().any(|s| s.contains("-h")) || (args.iter().count() == 0 && stdin_raw().isatty()) {
         println!("Usage:\n\tspark [-hv] VALUE,...");
         return;
     }
