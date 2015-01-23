@@ -4,11 +4,18 @@ name = "spark"
 version = "0.3.0"
 authors = ["Jiří Šebele <sindriava@gmail.com>"]
 
+description = "▄▆▂█▁ in your Rust!"
+repository = "https://github.com/sindriava/spark-rs"
+readme = "README.md"
+license = "WTFPL"
+
 [lib]
 
 name = "spark"
+path = "src/lib.rs"
 
 [[bin]]
 
 name = "spark"
+path = "src/main.rs"
 doc = false
