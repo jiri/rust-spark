@@ -1,4 +1,4 @@
-#![allow(unstable)]
+#![feature(core)]
 
 use std::f32::MAX_VALUE as f32_max;
 use std::num::Float;

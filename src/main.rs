@@ -1,9 +1,9 @@
-#![allow(unstable)]
+#![feature(os, io, collections)]
 
 extern crate spark;
 
 use std::os;
-use std::io::stdio::stdin_raw;
+use std::old_io::stdio::stdin_raw;
 
 fn main() {
     /* XXX: This is pretty weird */
