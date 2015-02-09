@@ -26,7 +26,7 @@ fn main() {
         args.iter()
             .flat_map(|n| n.split('\n'))
             .flat_map(|n| n.split(','))
-            .filter_map(|n| n.parse::<f32>())
+            .filter_map(|n| n.parse::<f32>().ok())
             .collect()
     } else {
         stdin_raw().read_to_string()
@@ -35,7 +35,7 @@ fn main() {
             .split(' ')
             .flat_map(|n| n.split('\n'))
             .flat_map(|n| n.split(','))
-            .filter_map(|n| n.parse::<f32>())
+            .filter_map(|n| n.parse::<f32>().ok())
             .collect()
     };
 
