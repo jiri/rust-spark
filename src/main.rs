@@ -1,6 +1,6 @@
 extern crate spark;
 
-use std::env::args;
+use std::io::{stdin, Read};
 
 fn main() {
     let args: Vec<String> = std::env::args()
@@ -17,11 +17,23 @@ fn main() {
         return;
     }
 
-    let values: Vec<f32> = args.iter()
-        .flat_map(|n| n.split('\n'))
-        .flat_map(|n| n.split(','))
-        .filter_map(|n| n.parse::<f32>().ok())
-        .collect();
+    let values: Vec<f32> = if args.len() == 0 {
+        let mut buffer = String::new();
+        match stdin().read_to_string(&mut buffer) {
+            Ok(_) => (),
+            Err(_) => panic!("Couldn't read from stdin!"),
+        };
+
+        buffer.split_whitespace()
+            .flat_map(|n| n.split(','))
+            .filter_map(|n| n.parse::<f32>().ok())
+            .collect()
+    } else {
+        args.iter()
+            .flat_map(|n| n.split(','))
+            .filter_map(|n| n.parse::<f32>().ok())
+            .collect()
+    };
 
     println!("{}", spark::graph(values.as_slice()));
 }
