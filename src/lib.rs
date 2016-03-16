@@ -1,7 +1,4 @@
-#![feature(core)]
-
-use std::f32::MAX_VALUE as f32_max;
-use std::num::Float;
+use std::f32::MAX as f32_max;
 
 /// `graph` generates a string representation of the values as a sparkline.
 ///
