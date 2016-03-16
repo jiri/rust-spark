@@ -1,11 +1,11 @@
 [package]
 
 name = "spark"
-version = "0.3.3"
+version = "0.4.0"
 authors = ["Jiří Šebele <sindriava@gmail.com>"]
 
 description = "▄▆▂█▁ in your Rust!"
-repository = "https://github.com/sindriava/spark-rs"
+repository = "https://github.com/jiri/rust-spark"
 readme = "README.md"
 license = "WTFPL"
 
@@ -19,3 +19,4 @@ path = "src/lib.rs"
 name = "spark"
 path = "src/main.rs"
 doc = false
+
